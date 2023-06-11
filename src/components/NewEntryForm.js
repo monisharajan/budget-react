@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {Checkbox, Form, Segment} from "semantic-ui-react";
 import ButtonSaveOrCancel from "./ButtonSaveOrCancel";
+import EntryForm from "./EntryForm";
 
 function NewEntryForm({addEntry}) {
   const [description, setDescription] = useState('');
@@ -9,32 +10,13 @@ function NewEntryForm({addEntry}) {
 
     return (
         <Form unstackable>
-        <Form.Group>
-          <Form.Input 
-          icon='tags'
-          width={12}
-          label='Description'
-          placeholder="new shiny thing"
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}></Form.Input>
-
-          <Form.Input 
-          icon='dollar'
-          iconPosition='left'
-          width={4}
-          label='Value'
-          placeholder="100.00"
-          value={value}
-          onChange={(event) => setValue(event.target.value)}>
-          </Form.Input>
-        </Form.Group> 
-        <Segment compact>
-          <Checkbox 
-          toggle 
-          label='is Expense'
-          checked = {isExpense} 
-          onChange={() => setIsExpense((oldState) => !oldState)}/>
-        </Segment>
+        <EntryForm 
+        description={description}
+        value={value}
+        isExpense={isExpense}
+        setDescription={setDescription}
+        setValue={setValue}
+        setIsExpense={setIsExpense}/>
         <ButtonSaveOrCancel addEntry={addEntry} description={description} value={value} isExpense={isExpense}/>  
       </Form>  
     );
