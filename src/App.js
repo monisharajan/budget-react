@@ -31,6 +31,19 @@ function App() {
     setEntries(result);
   }
 
+  function editEntry(id) {
+
+    if(id) {
+      const index = entries.findIndex(entry => entry.id === id);
+      const entry = entries[index];
+      setDescription(entry.description);
+      setValue(entry.value);
+      setIsExpense(entry.isExpense);
+      setIsOpen(true);
+    }
+
+  }
+
   return (
     <Container>
 
@@ -40,17 +53,23 @@ function App() {
       <DisplayBalances />
       <MainHeader title="History" type ="h3" />
 
-      <EntryLines entries={entries} deleteEntry={deleteEntry} setIsOpen={setIsOpen}/>
+      <EntryLines entries={entries} deleteEntry={deleteEntry} editEntry={editEntry}/>
 
       <MainHeader title="Add new transaction" type ="h3" />
       <NewEntryForm addEntry={addEntry}         
-      description={description}
+        description={description}
         value={value}
         isExpense={isExpense}
         setDescription={setDescription}
         setValue={setValue}
         setIsExpense={setIsExpense} />
-      <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen}/>
+      <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen}
+        description={description}
+        value={value}
+        isExpense={isExpense}
+        setDescription={setDescription}
+        setValue={setValue}
+        setIsExpense={setIsExpense}/>
 
     </Container>
   );
