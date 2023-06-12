@@ -5,8 +5,8 @@ import DisplayBalance from './components/DisplayBalance';
 import DisplayBalances from './components/DisplayBalances';
 import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
-import NewEntryForm from './components/NewEntryForm';
 import ModalEdit from './components/ModalEdit';
+import NewEntryForm from './components/NewEntryForm';
 
 function App() {
 
