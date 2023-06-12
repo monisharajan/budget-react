@@ -25,15 +25,23 @@ function App() {
         newEntries[index].value = value;
         newEntries[index].isExpense = isExpense;
         setEntries(newEntries);
+        resetEntry();
     }
   }, [isOpen])
 
   function deleteEntry(id) {
       const result = entries.filter(entry => entry.id !== id);
       setEntries(result);
+      resetEntry();
   }
 
-  function addEntry(description, value, isExpense) {
+  function resetEntry() {
+    setDescription('');
+    setValue('');
+    setIsExpense(true);
+  }
+
+  function addEntry() {
     const result = entries.concat({
       id: entries.length+1,
       description,
@@ -41,6 +49,7 @@ function App() {
       isExpense
     });
     setEntries(result);
+    resetEntry();
   }
 
   function editEntry(id) {

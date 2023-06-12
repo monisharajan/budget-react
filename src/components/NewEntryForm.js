@@ -12,7 +12,7 @@ function NewEntryForm({addEntry, description, value, isExpense, setDescription, 
         setDescription={setDescription}
         setValue={setValue}
         setIsExpense={setIsExpense}/>
-        <ButtonSaveOrCancel addEntry={addEntry} description={description} value={value} isExpense={isExpense}/>  
+        <ButtonSaveOrCancel addEntry={addEntry}/>  
       </Form>  
     );
 }
