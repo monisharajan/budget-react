@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { createStore } from 'redux';
 import { Container } from 'semantic-ui-react';
 import './App.css';
 import DisplayBalance from './components/DisplayBalance';
@@ -46,47 +45,6 @@ function App() {
     setIncomeTotal(totalIncome);
     setExpenseTotal(totalExpense);
   }, entries);
-
-  function entriesReducer(state = initialEntries, action) {
-    let newEntries;
-    switch(action.type) {
-      case 'ADD_ENTRY':
-        newEntries =  state.concat({...action.payload});
-        return newEntries; 
-      case 'REMOVE_ENTRY':
-        newEntries = state.filter(entry => entry.id !== action.payload.id);
-        return newEntries;
-      default:
-        return state;
-    }
-  }
-
-  const store = createStore(entriesReducer);
-
-  store.subscribe(() => {
-    console.log('store : ', store.getState());
-  })
-
-  const payload_add = {
-    id: 6,
-    description: "new income",
-    value: 100,
-    isExpense: false
-  };
-
-  const payload_remove = {
-    id:1
-  }
-
-  function addEntryRedux(payload) {
-      return {type : 'ADD_ENTRY', payload};
-  }
-
-  function removeEntryRedux(id) {
-      return {type : 'REMOVE_ENTRY', payload: {id}};
-  }
-  store.dispatch(addEntryRedux(payload_add));
-  store.dispatch(removeEntryRedux(payload_remove.id));
 
   function deleteEntry(id) {
       const result = entries.filter(entry => entry.id !== id);
@@ -155,33 +113,5 @@ function App() {
     </Container>
   );
 }
-
-var initialEntries = [
-  {
-    id:1,
-    description:"Work income",
-    value:1000.00,
-    isExpense:false
-  },
-  {
-    id:2,
-    description:"Water",
-    value:10.00,
-    isExpense:true
-  },
-  {
-    id:3,
-    description:"House Rent",
-    value:500.00,
-    isExpense:true
-  },
-  {
-    id:4,
-    description:"EB bill",
-    value:50.00,
-    isExpense:true
-  }
-
-]
 
 export default App;
