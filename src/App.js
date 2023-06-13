@@ -7,6 +7,8 @@ import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
 import ModalEdit from './components/ModalEdit';
 import NewEntryForm from './components/NewEntryForm';
+import {createStore} from 'redux';
+import { act } from 'react-dom/test-utils';
 
 function App() {
 
@@ -45,6 +47,29 @@ function App() {
     setIncomeTotal(totalIncome);
     setExpenseTotal(totalExpense);
   }, entries);
+
+  const store = createStore((state = initialEntries, action) => {
+    console.log(action);
+    switch(action.type) {
+      case 'ADD_ENTRY':
+      const newEntries =  entries.concat({
+        id: 6,
+        description: "new income",
+        value: 100,
+        isExpense: false
+      });
+      return newEntries;  
+      default:
+        return state;
+    }
+    
+  });
+
+  console.log('store before: ', store.getState());
+
+  store.dispatch({type : 'ADD_ENTRY'});
+
+  console.log('store after: ', store.getState());
 
   function deleteEntry(id) {
       const result = entries.filter(entry => entry.id !== id);
