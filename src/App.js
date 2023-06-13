@@ -50,26 +50,37 @@ function App() {
 
   const store = createStore((state = initialEntries, action) => {
     console.log(action);
+    let newEntries;
     switch(action.type) {
       case 'ADD_ENTRY':
-      const newEntries =  entries.concat({
-        id: 6,
-        description: "new income",
-        value: 100,
-        isExpense: false
-      });
-      return newEntries;  
+        newEntries =  state.concat({...action.payload});
+        return newEntries; 
+      case 'REMOVE_ENTRY':
+        newEntries = state.filter(entry => entry.id !== action.payload.id);
+        return newEntries;
       default:
         return state;
     }
     
   });
 
-  console.log('store before: ', store.getState());
+  store.subscribe(() => {
+    console.log('store : ', store.getState());
+  })
 
-  store.dispatch({type : 'ADD_ENTRY'});
+  const payload_add = {
+    id: 6,
+    description: "new income",
+    value: 100,
+    isExpense: false
+  };
 
-  console.log('store after: ', store.getState());
+  const payload_remove = {
+    id:1
+  }
+
+  store.dispatch({type : 'ADD_ENTRY', payload: payload_add});
+  store.dispatch({type : 'REMOVE_ENTRY', payload: payload_remove});
 
   function deleteEntry(id) {
       const result = entries.filter(entry => entry.id !== id);
