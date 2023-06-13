@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createStore } from 'redux';
 import { Container } from 'semantic-ui-react';
 import './App.css';
 import DisplayBalance from './components/DisplayBalance';
@@ -7,8 +8,6 @@ import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
 import ModalEdit from './components/ModalEdit';
 import NewEntryForm from './components/NewEntryForm';
-import {createStore} from 'redux';
-import { act } from 'react-dom/test-utils';
 
 function App() {
 
@@ -48,8 +47,7 @@ function App() {
     setExpenseTotal(totalExpense);
   }, entries);
 
-  const store = createStore((state = initialEntries, action) => {
-    console.log(action);
+  function entriesReducer(state = initialEntries, action) {
     let newEntries;
     switch(action.type) {
       case 'ADD_ENTRY':
@@ -61,8 +59,9 @@ function App() {
       default:
         return state;
     }
-    
-  });
+  }
+
+  const store = createStore(entriesReducer);
 
   store.subscribe(() => {
     console.log('store : ', store.getState());
@@ -79,8 +78,15 @@ function App() {
     id:1
   }
 
-  store.dispatch({type : 'ADD_ENTRY', payload: payload_add});
-  store.dispatch({type : 'REMOVE_ENTRY', payload: payload_remove});
+  function addEntryRedux(payload) {
+      return {type : 'ADD_ENTRY', payload};
+  }
+
+  function removeEntryRedux(id) {
+      return {type : 'REMOVE_ENTRY', payload: {id}};
+  }
+  store.dispatch(addEntryRedux(payload_add));
+  store.dispatch(removeEntryRedux(payload_remove.id));
 
   function deleteEntry(id) {
       const result = entries.filter(entry => entry.id !== id);
@@ -150,8 +156,6 @@ function App() {
   );
 }
 
-export default App;
-
 var initialEntries = [
   {
     id:1,
@@ -179,3 +183,5 @@ var initialEntries = [
   }
 
 ]
+
+export default App;
